@@ -2,7 +2,7 @@ import React from "react";
 import "./styles.css";
 import { add, sub, mul, div } from "./operator.js";
 
-const operators = ["+", "-", "x", "/"];
+const operators = ["+", "-", "x", ":"];
 
 export default class App extends React.Component {
   constructor(props) {
