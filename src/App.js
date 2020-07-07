@@ -9,80 +9,35 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       results: 0,
-      display: "",
-      val1: 0,
-      val2: 0,
-      sign: ""
+      display: ""
     };
   }
 
   // Hàm lấy giá trị từ các nút số cập nhật vào State
   handleClick = e => {
-    const val = e.target.value;
-    const sign = this.state.sign;
-    const results = this.state.results;
-    let display = this.state.display + val;
-
-    if (results !== 0) {
-      const lastIndexOfSign = display.lastIndexOf(sign) + 1;
-      const val2 = parseFloat(display.slice(lastIndexOfSign));
-      this.setState({ val1: results, val2, display });
-    } else {
-      if (sign === "") {
-        const val1 = parseFloat(display);
-        this.setState({ val1, display });
-      } else {
-        const indexOfSign = display.indexOf(sign) + 1;
-        const val2 = parseFloat(display.slice(indexOfSign));
-        this.setState({ val2, display });
-      }
-    }
+    this.setState({ display: this.state.display + e.target.value });
   };
 
   // Hàm lấy giá trị từ các toán tử cập nhật vào State
   handleOper = e => {
-    const sign = this.state.sign;
-    const val1 = this.state.val1;
-    const val2 = this.state.val2;
-    let results, display;
-    let setVal2 = 0;
-
-    switch (sign) {
-      case "+":
-        results = add(val1, val2);
-        break;
-      case "-":
-        results = sub(val1, val2);
-        break;
-      case "x":
-        val2 !== 0
-          ? (results = mul(val1, val2))
-          : (results = this.state.results);
-        setVal2 = 1;
-        break;
-      case "/":
-        results = div(val1, val2);
-        setVal2 = 1;
-        break;
-      default:
-        results = add(val1, val2);
+    const result = this.calculate();
+    console.log(result);
+    if (result !== false) {
+      this.setState({ display: result + e.target.value });
+    } else {
+      this.setState({ display: this.state.display + e.target.value });
     }
-
-    display = results + e.target.value;
-    this.setState({
-      sign: e.target.value,
-      display,
-      val1: results,
-      val2: setVal2,
-      results
-    });
   };
 
   // Hàm tính toán ra kết quả cập nhật vào State
-  handleCalculate = () => {
+  calculate = () => {
     const { display } = this.state;
     const sign = operators.find(op => display.includes(op));
     const [val1, val2] = display.split(sign).map(parseFloat);
+
+    if (!sign || Number.isNaN(val1) || Number.isNaN(val2)) {
+      return false;
+    }
 
     let results;
     if (sign === "+") {
@@ -94,7 +49,9 @@ export default class App extends React.Component {
     } else if (sign === "/") {
       results = div(val1, val2);
     }
-    this.setState({ results });
+
+    this.setState({ display: results });
+    return results;
   };
 
   render() {
@@ -151,10 +108,7 @@ export default class App extends React.Component {
         </div>
 
         {/* toán tử = */}
-        <button
-          className="btn btn-result"
-          onClick={() => this.handleCalculate()}
-        >
+        <button className="btn btn-result" onClick={this.calculate}>
           =
         </button>
 
@@ -164,10 +118,7 @@ export default class App extends React.Component {
           onClick={() =>
             this.setState({
               results: 0,
-              display: "",
-              val1: 0,
-              val2: 0,
-              sign: "+"
+              display: ""
             })
           }
         >
