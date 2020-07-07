@@ -1,0 +1,68 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  background: #000;
+  max-width: 280px;
+  padding: 25px;
+  margin: 0 auto;
+}
+
+.btn {
+  width: 70px;
+  height: 70px;
+  border-radius: 50px;
+  border: 0px;
+  font-size: 30px;
+  color: #fff;
+  text-align: center;
+}
+.btn:focus {
+  outline: none;
+}
+.btn-number-container {
+  max-width: 225px;
+}
+.btn-number {
+  background: rgb(155, 153, 153);
+}
+.btn-oper-container {
+  display: flex;
+  flex-direction: column;
+}
+.btn-container {
+  display: flex;
+}
+.btn-oper,
+.btn-result {
+  background: rgb(248, 192, 72);
+}
+
+.btn-clear {
+  background: rgb(248, 192, 72);
+  font-size: 18px;
+  width: 210px;
+  border-radius: 50px;
+  border: 0px;
+  height: 70px;
+}
+.btn-zero {
+  width: 140px;
+  text-align: start;
+  margin-left: 0px;
+}
+.display,
+.results {
+  max-width: 280px;
+  text-align: end;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  height: 30px;
+}
+.display {
+  color: white;
+  font-size: 20px;
+}
+.results {
+  color: white;
+  font-size: 30px;
+}
