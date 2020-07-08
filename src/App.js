@@ -34,8 +34,9 @@ export default class App extends React.Component {
   // Hàm tính toán ra kết quả cập nhật vào State
   calculate = () => {
     const { display } = this.state;
-    const sign = operators.find(op => display.includes(op));
-    const [val1, val2] = display.split(sign).map(parseFloat);
+    const displayString = display.toString();
+    const sign = operators.find(op => displayString.includes(op)); // neu an dau = ma display khong la string thi bao loi
+    const [val1, val2] = displayString.split(sign).map(parseFloat);
 
     if (!sign || Number.isNaN(val1) || Number.isNaN(val2)) {
       return false;
