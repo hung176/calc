@@ -2,7 +2,7 @@ import React from "react";
 import "./styles.css";
 import { add, sub, mul, div } from "./operator.js";
 
-const operators = ["+", "-", "x", ":"];
+const operators = ["+", "-", "x", "/"];
 
 export default class App extends React.Component {
   constructor(props) {
@@ -21,11 +21,13 @@ export default class App extends React.Component {
   // Hàm lấy giá trị từ các toán tử cập nhật vào State
   handleOper = e => {
     const result = this.calculate();
-    console.log(result);
+    let display = this.state.display;
+    let deleteSign = parseFloat(display);
+
     if (result !== false) {
       this.setState({ display: result + e.target.value });
     } else {
-      this.setState({ display: this.state.display + e.target.value });
+      this.setState({ display: deleteSign + e.target.value });
     }
   };
 
@@ -50,7 +52,7 @@ export default class App extends React.Component {
       results = div(val1, val2);
     }
 
-    this.setState({ display: results });
+    this.setState({ display: results, results });
     return results;
   };
 
