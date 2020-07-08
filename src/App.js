@@ -21,37 +21,32 @@ export default class App extends React.Component {
   // Hàm lấy giá trị từ các toán tử cập nhật vào State
   handleOper = e => {
     const result = this.calculate();
-    let display = this.state.display;
-    let deleteSign = parseFloat(display);
+    const display = this.state.display;
+    const deleteSign = parseFloat(display);
 
-    if (result !== false) {
-      this.setState({ display: result + e.target.value });
-    } else {
-      this.setState({ display: deleteSign + e.target.value });
-    }
+    result !== false
+      ? this.setState({ display: result + e.target.value })
+      : this.setState({ display: deleteSign + e.target.value });
   };
 
   // Hàm tính toán ra kết quả cập nhật vào State
   calculate = () => {
     const { display } = this.state;
     const displayString = display.toString();
-    const sign = operators.find(op => displayString.includes(op)); // neu an dau = ma display khong la string thi bao loi
-    const [val1, val2] = displayString.split(sign).map(parseFloat);
+    const signIndex = operators.findIndex(op => displayString.includes(op));
+    const [val1, val2] = displayString
+      .split(operators[signIndex])
+      .map(parseFloat);
 
-    if (!sign || Number.isNaN(val1) || Number.isNaN(val2)) {
+    if (signIndex === -1) {
+      return false;
+    }
+    if (Number.isNaN(val1) || Number.isNaN(val2)) {
       return false;
     }
 
-    let results;
-    if (sign === "+") {
-      results = add(val1, val2);
-    } else if (sign === "-") {
-      results = sub(val1, val2);
-    } else if (sign === "x") {
-      results = mul(val1, val2);
-    } else if (sign === "/") {
-      results = div(val1, val2);
-    }
+    const calFunction = [add, sub, mul, div][signIndex];
+    const results = calFunction(val1, val2);
 
     this.setState({ display: results, results });
     return results;
