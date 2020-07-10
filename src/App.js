@@ -1,37 +1,36 @@
-import React from "react";
+import React, {useState} from "react";
 import "./styles.css";
 import { add, sub, mul, div } from "./operator.js";
 
-const operators = ["+", "-", "x", "/"];
 
-export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      results: 0,
-      display: ""
-    };
-  }
+
+export default function App() {
+  
+  const [display, setDisplay] = useState('');
+  const [results, setResults] = useState(0);
+  
+  const operators = ["+", "-", "x", "/"];
+  const num = ["9", "8", "7", "6", "5", "4", "3", "2", "1", "."];
+  const zero = 0;
 
   // Hàm lấy giá trị từ các nút số cập nhật vào State
-  handleClick = e => {
-    this.setState({ display: this.state.display + e.target.value });
+  const handleClick = e => {
+    setDisplay(display + e.target.value );
   };
 
   // Hàm lấy giá trị từ các toán tử cập nhật vào State
-  handleOper = e => {
-    const result = this.calculate();
-    const display = this.state.display;
+  const handleOper = e => {
+    const result = calculate();
+    
     const deleteSign = parseFloat(display);
 
     result !== false
-      ? this.setState({ display: result + e.target.value })
-      : this.setState({ display: deleteSign + e.target.value });
+      ? setDisplay(result + e.target.value )
+      : setDisplay(deleteSign + e.target.value);
   };
 
   // Hàm tính toán ra kết quả cập nhật vào State
-  calculate = () => {
-    const { display } = this.state;
+  const calculate = () => {
     const displayString = display.toString();
     const signIndex = operators.findIndex(op => displayString.includes(op));
     const [val1, val2] = displayString
@@ -48,17 +47,10 @@ export default class App extends React.Component {
     const calFunction = [add, sub, mul, div][signIndex];
     const results = calFunction(val1, val2);
 
-    this.setState({ display: results, results });
+    setDisplay(results);
+    setResults(results);
     return results;
   };
-
-  render() {
-    const num = ["9", "8", "7", "6", "5", "4", "3", "2", "1", "."];
-    const zero = 0;
-    const operators = ["+", "-", "x", "/"];
-    let display = this.state.display;
-    let results = this.state.results;
-
     return (
       <div className="App">
         {/* Hiển thị và kết quả */}
@@ -73,7 +65,7 @@ export default class App extends React.Component {
                 key={val}
                 className="btn btn-number"
                 value={val}
-                onClick={this.handleClick}
+                onClick={handleClick}
               >
                 {val}
               </button>
@@ -83,7 +75,7 @@ export default class App extends React.Component {
             <button
               className="btn btn-number btn-zero"
               value={zero}
-              onClick={this.handleClick}
+              onClick={handleClick}
             >
               {" "}
               {zero}{" "}
@@ -97,7 +89,7 @@ export default class App extends React.Component {
                 key={index}
                 className="btn btn-oper"
                 value={op}
-                onClick={this.handleOper}
+                onClick={handleOper}
               >
                 {op}
               </button>
@@ -106,23 +98,21 @@ export default class App extends React.Component {
         </div>
 
         {/* toán tử = */}
-        <button className="btn btn-result" onClick={this.calculate}>
+        <button className="btn btn-result" onClick={calculate}>
           =
         </button>
 
         {/* nút CLEAR */}
         <button
           className="btn-clear"
-          onClick={() =>
-            this.setState({
-              results: 0,
-              display: ""
-            })
-          }
+          onClick={() =>{
+            setDisplay('');
+            setResults(0);
+          }}
         >
           CLEAR
         </button>
       </div>
     );
-  }
+  
 }
