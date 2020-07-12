@@ -1,4 +1,7 @@
-export const add = (x, y) => x + y;
-export const sub = (x, y) => x - y;
-export const mul = (x, y) => x * y;
-export const div = (x, y) => Math.round((x / y) * 100) / 100;
+
+export const calc = [
+    {sign: '+', compute: (x,y) => x + y},
+    {sign: '-',compute: (x,y) => x - y},
+    {sign: 'x',compute: (x,y) => x * y},
+    {sign: '/',compute: (x,y) => x / y},
+]

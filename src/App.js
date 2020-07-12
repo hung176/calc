@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import "./styles.css";
-import { add, sub, mul, div } from "./operator.js";
+import { calc } from "./operator.js";
 
 
 
@@ -9,7 +9,7 @@ export default function App() {
   const [display, setDisplay] = useState('');
   const [results, setResults] = useState(0);
   
-  const operators = ["+", "-", "x", "/"];
+  const operators = calc.map(element => element.sign);
   const num = ["9", "8", "7", "6", "5", "4", "3", "2", "1", "."];
   const zero = 0;
 
@@ -33,18 +33,19 @@ export default function App() {
   const calculate = () => {
     const displayString = display.toString();
     const signIndex = operators.findIndex(op => displayString.includes(op));
+    if (signIndex === -1) {
+      return false;
+    }
+   
     const [val1, val2] = displayString
       .split(operators[signIndex])
       .map(parseFloat);
 
-    if (signIndex === -1) {
-      return false;
-    }
     if (Number.isNaN(val1) || Number.isNaN(val2)) {
       return false;
     }
 
-    const calFunction = [add, sub, mul, div][signIndex];
+    const calFunction = calc[signIndex].compute;
     const results = calFunction(val1, val2);
 
     setDisplay(results);
