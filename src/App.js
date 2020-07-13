@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import "./styles.css";
-import operators from "./operator.js";
+import {operators} from "./operator.js";
 
 export default function App() {
   const [display, setDisplay] = useState('');
@@ -29,7 +29,7 @@ export default function App() {
   const calculate = () => {
     const displayString = display.toString();
     const operator = operators.find(op => displayString.includes(op.sign));
-
+    console.log(operator);
     if (!operator) {
       return false;
     }
