@@ -11,7 +11,7 @@ export default function App() {
   
   const operators = calc.map(element => element.sign);
   const num = ["9", "8", "7", "6", "5", "4", "3", "2", "1", "."];
-  const zero = 0;
+  
 
   // Hàm lấy giá trị từ các nút số cập nhật vào State
   const handleClick = e => {
@@ -75,11 +75,10 @@ export default function App() {
             {/* nút số 0 */}
             <button
               className="btn btn-number btn-zero"
-              value={zero}
+              value={0}
               onClick={handleClick}
             >
-              {" "}
-              {zero}{" "}
+            {0}
             </button>
           </div>
 
