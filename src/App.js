@@ -1,15 +1,11 @@
 import React, {useState} from "react";
 import "./styles.css";
-import { calc } from "./operator.js";
-
-
+import operators from "./operator.js";
 
 export default function App() {
-  
   const [display, setDisplay] = useState('');
   const [results, setResults] = useState(0);
-  
-  const operators = calc.map(element => element.sign);
+
   const num = ["9", "8", "7", "6", "5", "4", "3", "2", "1", "."];
   const zero = 0;
 
@@ -21,7 +17,7 @@ export default function App() {
   // Hàm lấy giá trị từ các toán tử cập nhật vào State
   const handleOper = e => {
     const result = calculate();
-    
+
     const deleteSign = parseFloat(display);
 
     result !== false
@@ -32,21 +28,23 @@ export default function App() {
   // Hàm tính toán ra kết quả cập nhật vào State
   const calculate = () => {
     const displayString = display.toString();
-    const signIndex = operators.findIndex(op => displayString.includes(op));
-    if (signIndex === -1) {
+    const operator = operators.find(op => displayString.includes(op.sign));
+
+    if (!operator) {
       return false;
     }
-   
+
+    const { sign, compute } = operator;
+
     const [val1, val2] = displayString
-      .split(operators[signIndex])
+      .split(sign)
       .map(parseFloat);
 
     if (Number.isNaN(val1) || Number.isNaN(val2)) {
       return false;
     }
 
-    const calFunction = calc[signIndex].compute;
-    const results = calFunction(val1, val2);
+    const results = compute(val1, val2);
 
     setDisplay(results);
     setResults(results);
@@ -85,14 +83,14 @@ export default function App() {
 
           {/* Các toán tử */}
           <div className="btn-oper-container">
-            {operators.map((op, index) => (
+            {operators.map(({ sign }, index) => (
               <button
                 key={index}
                 className="btn btn-oper"
-                value={op}
+                value={sign}
                 onClick={handleOper}
               >
-                {op}
+                {sign}
               </button>
             ))}
           </div>
@@ -115,5 +113,5 @@ export default function App() {
         </button>
       </div>
     );
-  
+
 }
