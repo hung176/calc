@@ -27,8 +27,8 @@ export default function App() {
 
   // Hàm tính toán ra kết quả cập nhật vào State
   const calculate = () => {
-    const displayString = display.toString();
-    const operator = operators.find(op => displayString.includes(op.sign));
+    const displayString = display.toString(); 
+    const operator = operators.find(op => displayString.includes(op.sign)); 
     console.log(operator);
     if (!operator) {
       return false;
