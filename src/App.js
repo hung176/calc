@@ -29,7 +29,6 @@ export default function App() {
   const calculate = () => {
     const displayString = display.toString(); 
     const operator = operators.find(op => displayString.includes(op.sign)); 
-    console.log(operator);
     if (!operator) {
       return false;
     }
